@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # PyTorch-YOLOv3
 A minimal PyTorch implementation of YOLOv3, with support for training, inference and evaluation.
 
@@ -191,3 +192,9 @@ https://pjreddie.com/yolo/.
 =======
 # Yolo
 >>>>>>> c0f8727e22c79a9d9f07f2042028d551393f4d78
+=======
+# Yolo
+pip install torchsummary
+pip install imgaug
+pip install future
+>>>>>>> e24a8648c2f999c7d525bf7de5e1aade20783b74
