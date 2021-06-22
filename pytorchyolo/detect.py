@@ -1,8 +1,8 @@
 #! /usr/bin/env python3
-
 from __future__ import division
 
-import os
+import sys, os
+sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 import argparse
 import tqdm
 import random

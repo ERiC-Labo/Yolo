@@ -1,7 +1,8 @@
 #! /usr/bin/env python3
 
 from __future__ import division
-
+import sys, os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import os
 import argparse
 import tqdm
@@ -92,6 +93,7 @@ def run():
     valid_path = data_config["valid"]
     class_names = load_classes(data_config["names"])
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    #device = torch.device("cpu")
 
     # ############
     # Create model
@@ -104,6 +106,8 @@ def run():
         summary(model, input_size=(3, model.hyperparams['height'], model.hyperparams['height']))
 
     mini_batch_size = model.hyperparams['batch'] // model.hyperparams['subdivisions']
+    print("bach size is " + str(mini_batch_size))
+    #mini_batch_size = 64
 
     # #################
     # Create Dataloader
@@ -123,6 +127,7 @@ def run():
         mini_batch_size,
         model.hyperparams['height'],
         args.n_cpu)
+    print('image size ' + str(model.hyperparams['height']))
 
     # ################
     # Create optimizer
@@ -144,7 +149,7 @@ def run():
             momentum=model.hyperparams['momentum'])
     else:
         print("Unknown optimizer. Please choose between (adam, sgd).")
-
+    print(args.epochs)
     for epoch in range(args.epochs):
 
         print("\n---- Training Model ----")
@@ -154,8 +159,10 @@ def run():
         for batch_i, (_, imgs, targets) in enumerate(tqdm.tqdm(dataloader, desc=f"Training Epoch {epoch}")):
             batches_done = len(dataloader) * epoch + batch_i
 
-            imgs = imgs.to(device, non_blocking=True)
-            targets = targets.to(device)
+            #imgs = imgs.to(device, non_blocking=True)
+            #targets = targets.to(device)
+            imgs = imgs.cuda()
+            targets = targets.cuda()
 
             outputs = model(imgs)
 
